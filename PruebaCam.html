@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<button onclick="probarCamara()">
+Probar cámara
+</button>
+
+<video id="video"
+       autoplay
+       playsinline
+       width="300">
+</video>
+
+<script>
+
+async function probarCamara(){
+
+  try{
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        video:true
+      });
+
+    document
+      .getElementById("video")
+      .srcObject = stream;
+
+    alert("Cámara iniciada");
+
+  }
+
+  catch(error){
+
+    alert(error.name + ": " + error.message);
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
