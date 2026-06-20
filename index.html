@@ -114,6 +114,31 @@ button{
   padding:0.8rem 1.5rem;
   border-radius:999px;
 }
+  
+#estadisticas{
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1.5rem;
+}
+
+.stat{
+  flex:1;
+  background:#F8FAFC;
+  border-radius:1rem;
+  padding:1rem;
+}
+
+.stat span{
+  display:block;
+  font-size:1.8rem;
+  font-weight:bold;
+  color:#1F2937;
+}
+
+.stat small{
+  color:#6B7280;
+}
 </style>
 </head>
 
@@ -131,10 +156,28 @@ button{
 </audio>
   
 <div class="container">
-  <h1>Control de Acceso</h1>
+  <h1>Registro de Entradas</h1>
   <p id="subtitulo">
     Control de acceso de invitados
   </p>
+
+  <div id="estadisticas">
+    <div class="stat">
+      <span id="total">0</span>
+      <small>Total</small>
+    </div>
+    
+    <div class="stat">
+      <span id="ingresados">0</span>
+      <small>Ingresados</small>
+    </div>
+  
+    <div class="stat">
+      <span id="pendientes">0</span>
+      <small>Pendientes</small>
+    </div>
+  </div>
+  
   <button id="btnIniciar">
     Iniciar escáner
   </button>
@@ -175,6 +218,37 @@ document
     iniciarEscaner();
   }
 );
+
+async function cargarEstadisticas(){
+  try{
+    const respuesta =
+      await fetch(
+        API_URL +
+        "?accion=estadisticas"
+      );
+    const data = await respuesta.json();
+    document
+      .getElementById("total")
+      .textContent =
+      data.total;
+
+    document
+      .getElementById("ingresados")
+      .textContent =
+      data.ingresados;
+
+    document
+      .getElementById("pendientes")
+      .textContent =
+      data.pendientes;
+  }
+
+  catch(error){
+    console.log(
+      "Error cargando estadísticas"
+    );
+  }
+}
 
 function iniciarEscaner(){
   resultado.style.display = "none";
@@ -247,6 +321,7 @@ function reproducirError(){
 }
 
 function mostrarResultado(data){
+  cargarEstadisticas();
   resultado.style.display = "block";
   reader.style.display = "none";
 
@@ -329,6 +404,8 @@ function nuevoEscaneo(){
   reader.innerHTML = "";
   iniciarEscaner();
 }
+
+cargarEstadisticas();
   
 </script>
 </body>
