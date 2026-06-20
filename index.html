@@ -1,19 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Control de Acceso</title>
-
+<title>Registro de Entradas</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 
 <style>
-
 *{
   margin:0;
   padding:0;
@@ -21,199 +15,122 @@
 }
 
 body{
-
   min-height:100vh;
-
   background:#F5F7FA;
-
   font-family:Arial,sans-serif;
-
   display:flex;
   justify-content:center;
   align-items:center;
-
   padding:1rem;
-
 }
 
 .container{
-
   width:100%;
   max-width:35rem;
-
   text-align:center;
-
 }
 
 h1{
-
   color:#263238;
-
   margin-bottom:1.5rem;
-
 }
 
 #reader{
-
   width:100%;
-
   max-width:30rem;
-
   margin:auto;
-
   display:none;
-
   overflow:hidden;
-
   border-radius:1rem;
-
 }
 
 button{
-
   border:none;
-
   cursor:pointer;
-
   padding:1rem 2rem;
-
   border-radius:0.75rem;
-
   font-size:1rem;
-
 }
 
 #btnIniciar{
-
   background:#1565C0;
-
   color:white;
-
 }
 
 #resultado{
-
   display:none;
-
   margin-top:1rem;
-
   padding:1.5rem;
-
   border-radius:1rem;
-
   color:white;
-
 }
 
 .verde{
-
   background:#2E7D32;
-
 }
 
 .amarillo{
-
   background:#F9A825;
-
 }
 
 .rojo{
-
   background:#C62828;
-
 }
 
 .info{
-
   margin-top:1rem;
-
   line-height:1.8;
-
 }
 
 .btnNuevo{
-
   margin-top:1rem;
-
   background:white;
-
   color:#263238;
-
 }
-
 </style>
-
 </head>
 
 <body>
-
 <div class="container">
-
   <h1>Control de Acceso</h1>
-
   <button id="btnIniciar">
     Iniciar escáner
   </button>
 
   <div id="reader"></div>
-
   <div id="resultado"></div>
-
 </div>
 
 <script>
-
-const API_URL =
-"https://script.google.com/macros/s/TU_ID_AQUI/exec";
-
+const API_URL = "https://script.google.com/macros/s/AKfycby6T1GZrQm5wc_pADozM3hzfwEEwCTnn2OUKoJt3ya-q_Uh5A_O2FnWcxG7Kimofwrd/exec";
 let scanner;
-
-const reader =
-document.getElementById("reader");
-
-const resultado =
-document.getElementById("resultado");
+const reader = document.getElementById("reader");
+const resultado = document.getElementById("resultado");
 
 document
-.getElementById("btnIniciar")
-.addEventListener(
-  "click",
-  iniciarEscaner
-);
+  .getElementById("btnIniciar")
+  .addEventListener("click",iniciarEscaner);
 
 function iniciarEscaner(){
-
-  resultado.style.display =
-    "none";
+  resultado.style.display = "none";
 
   document
     .getElementById("btnIniciar")
-    .style.display =
-    "none";
+    .style.display = "none";
 
-  reader.style.display =
-    "block";
-
-  scanner =
-    new Html5Qrcode("reader");
-
+  reader.style.display = "block";
+  scanner = new Html5Qrcode("reader");
   scanner.start(
-
     {
       facingMode:"environment"
     },
-
     {
       fps:10,
       qrbox:250
     },
-
     qrDetectado
-
   )
-
   .catch(error => {
-
     alert(
       "Error al iniciar la cámara:\n\n" +
       error
@@ -221,196 +138,113 @@ function iniciarEscaner(){
 
     document
       .getElementById("btnIniciar")
-      .style.display =
-      "inline-block";
-
+      .style.display = "inline-block";
   });
-
 }
 
 async function qrDetectado(codigo){
-
-  codigo =
-    codigo.trim();
-
+  codigo = codigo.trim();
   await scanner.stop();
 
   try{
-
     const respuesta =
       await fetch(
-
         API_URL +
         "?codigo=" +
         encodeURIComponent(codigo)
-
       );
 
-    const data =
-      await respuesta.json();
-
+    const data = await respuesta.json();
     mostrarResultado(data);
-
   }
 
   catch(error){
-
-    mostrarError(
-      "No fue posible consultar la API."
-    );
-
+    mostrarError("No fue posible consultar la API.");
   }
-
 }
 
 function mostrarResultado(data){
+  resultado.style.display = "block";
+  reader.style.display = "none";
 
-  resultado.style.display =
-    "block";
-
-  reader.style.display =
-    "none";
-
-  if(
-    data.estado ===
-    "autorizado"
-  ){
-
-    resultado.className =
-      "verde";
-
+  if(data.estado === "autorizado"){
+    resultado.className = "verde";
     resultado.innerHTML =
-
       "<h2>✓ ACCESO AUTORIZADO</h2>" +
-
       "<div class='info'>" +
-
       "<strong>" +
       data.nombre +
       "</strong><br><br>" +
-
       "Confirmados: " +
       data.confirmados +
       "<br>" +
-
       "Menú Infantil: " +
       data.menuInfantil +
       "<br>" +
-
       "Mesa: " +
       data.mesa +
       "<br><br>" +
-
       "Hora: " +
       data.horaEntrada +
-
       "</div>";
-
   }
 
-  else if(
-    data.estado ===
-    "registrado"
-  ){
-
-    resultado.className =
-      "amarillo";
-
+  else if(data.estado === "registrado"){
+    resultado.className = "amarillo";
     resultado.innerHTML =
-
       "<h2>⚠ YA INGRESÓ</h2>" +
-
       "<div class='info'>" +
-
       "<strong>" +
       data.nombre +
       "</strong><br><br>" +
-
       "Confirmados: " +
       data.confirmados +
       "<br>" +
-
       "Menú Infantil: " +
       data.menuInfantil +
       "<br>" +
-
       "Mesa: " +
       data.mesa +
       "<br><br>" +
-
       "Hora registrada:<br>" +
-
       data.horaEntrada +
-
       "</div>";
-
   }
 
   else{
-
-    resultado.className =
-      "rojo";
-
+    resultado.className = "rojo";
     resultado.innerHTML =
-
       "<h2>✕ QR NO VÁLIDO</h2>";
-
   }
-
+  
   resultado.innerHTML +=
-
     "<br>" +
-
     "<button class='btnNuevo' onclick='nuevoEscaneo()'>" +
-
     "Escanear siguiente" +
-
     "</button>";
-
 }
 
 function mostrarError(texto){
-
-  resultado.style.display =
-    "block";
-
-  resultado.className =
-    "rojo";
-
+  resultado.style.display = "block";
+  resultado.className = "rojo";
   resultado.innerHTML =
-
     "<h2>✕ ERROR</h2>" +
-
     "<div class='info'>" +
-
     texto +
-
     "</div>" +
-
     "<br>" +
-
     "<button class='btnNuevo' onclick='nuevoEscaneo()'>" +
-
     "Escanear siguiente" +
-
     "</button>";
-
 }
 
 function nuevoEscaneo(){
-
-  resultado.style.display =
-    "none";
-
-  reader.innerHTML =
-    "";
-
+  resultado.style.display = "none";
+  reader.innerHTML = "";
   iniciarEscaner();
-
 }
-
+  
 </script>
-
 </body>
 
 </html>
