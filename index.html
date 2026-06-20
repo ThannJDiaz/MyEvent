@@ -163,12 +163,52 @@ async function qrDetectado(codigo){
   }
 }
 
+function reproducirExito(){
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  osc.type = "sine";
+  osc.frequency.value = 900;
+  osc.connect(gain);
+  gain.connect(audioContext.destination);
+  gain.gain.setValueAtTime(0.4,audioContext.currentTime);
+  osc.start();
+  osc.stop(audioContext.currentTime + 0.15);
+}
+
+function reproducirAdvertencia(){
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  osc.type = "triangle";
+  osc.frequency.value = 600;
+  osc.connect(gain);
+  gain.connect(audioContext.destination);
+  gain.gain.setValueAtTime(0.4,audioContext.currentTime);
+  osc.start();
+  osc.stop(audioContext.currentTime + 0.3);
+}
+
+function reproducirError(){
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  osc.type = "square";
+  osc.frequency.value = 250;
+  osc.connect(gain);
+  gain.connect(audioContext.destination);
+  gain.gain.setValueAtTime(0.4,audioContext.currentTime);
+  osc.start();
+  osc.stop(audioContext.currentTime + 0.6);
+}
+
 function mostrarResultado(data){
   resultado.style.display = "block";
   reader.style.display = "none";
 
   if(data.estado === "autorizado"){
     resultado.className = "verde";
+    reproducirExito();
     resultado.innerHTML =
       "<h2>✓ ACCESO AUTORIZADO</h2>" +
       "<div class='info'>" +
@@ -191,6 +231,7 @@ function mostrarResultado(data){
 
   else if(data.estado === "registrado"){
     resultado.className = "amarillo";
+    reproducirAdvertencia();
     resultado.innerHTML =
       "<h2>⚠ YA INGRESÓ</h2>" +
       "<div class='info'>" +
@@ -213,6 +254,7 @@ function mostrarResultado(data){
 
   else{
     resultado.className = "rojo";
+    reproducirError();
     resultado.innerHTML =
       "<h2>✕ QR NO VÁLIDO</h2>";
   }
