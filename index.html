@@ -26,12 +26,24 @@ body{
 
 .container{
   width:100%;
-  max-width:35rem;
+  max-width:32rem;
+  background:white;
+  border-radius:1.5rem;
+  padding:2rem;
+  box-shadow:
+    0 0.5rem 2rem
+    rgba(0,0,0,.08);
   text-align:center;
 }
 
 h1{
-  color:#263238;
+  color:#1F2937;
+  font-size:2rem;
+  margin-bottom:0.5rem;
+}
+
+#subtitulo{
+  color:#6B7280;
   margin-bottom:1.5rem;
 }
 
@@ -53,8 +65,11 @@ button{
 }
 
 #btnIniciar{
-  background:#1565C0;
+  background:#2563EB;
   color:white;
+  font-weight:600;
+  width:100%;
+  padding:1rem;
 }
 
 #resultado{
@@ -63,6 +78,15 @@ button{
   padding:1.5rem;
   border-radius:1rem;
   color:white;
+}
+
+#resultado h2{
+  margin-bottom:1rem;
+  font-size:1.6rem;
+}
+
+#resultado strong{
+  font-size:1.4rem;
 }
 
 .verde{
@@ -83,9 +107,12 @@ button{
 }
 
 .btnNuevo{
-  margin-top:1rem;
+  margin-top:1.5rem;
   background:white;
-  color:#263238;
+  color:#111827;
+  font-weight:600;
+  padding:0.8rem 1.5rem;
+  border-radius:999px;
 }
 </style>
 </head>
@@ -105,6 +132,9 @@ button{
   
 <div class="container">
   <h1>Control de Acceso</h1>
+  <p id="subtitulo">
+    Control de acceso de invitados
+  </p>
   <button id="btnIniciar">
     Iniciar escáner
   </button>
@@ -224,7 +254,7 @@ function mostrarResultado(data){
     resultado.className = "verde";
     reproducirExito();
     resultado.innerHTML =
-      "<h2>✓ ACCESO AUTORIZADO</h2>" +
+      "<h2>✅ ACCESO AUTORIZADO</h2>" +
       "<div class='info'>" +
       "<strong>" +
       data.nombre +
@@ -270,7 +300,7 @@ function mostrarResultado(data){
     resultado.className = "rojo";
     reproducirError();
     resultado.innerHTML =
-      "<h2>✕ QR NO VÁLIDO</h2>";
+      "<h2>❌ QR NO VÁLIDO</h2>";
   }
   
   resultado.innerHTML +=
