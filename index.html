@@ -134,34 +134,6 @@ button{
 .stat small{
   color:#6B7280;
 }
-
-#separador{
-  margin:1.5rem 0;
-  color:#6B7280;
-  font-weight:600;
-}
-
-#registroManual{
-  display:flex;
-  gap:.5rem;
-}
-
-#codigoManual{
-  flex:1;
-  padding:0.5rem;
-  border:1px solid #D1D5DB;
-  border-radius:.75rem;
-  font-size:1rem;
-}
-
-#btnManual{
-  background:#374151;
-  color:white;
-  padding:0.5rem 1rem;
-  border:none;
-  border-radius:.75rem;
-  cursor:pointer;
-}
 </style>
 </head>
 
@@ -201,26 +173,7 @@ button{
   <button id="btnIniciar">
     Iniciar escáner
   </button>
-
-  <div id="separador">
-    o
-  </div>
-
-  <div id="registroManual">
-    <input
-      type="text"
-      id="codigoManual"
-      placeholder="(Ej. A001)"
-      autocomplete="off"
-    >  
-    <button
-      id="btnManual"
-      onclick="registrarManual()"
-    >
-      Registrar
-    </button>
-  </div>
-
+  
   <div id="reader"></div>
   <div id="resultado"></div>
 </div>
@@ -318,43 +271,6 @@ function iniciarEscaner(){
       .getElementById("btnIniciar")
       .style.display = "inline-block";
   });
-}
-
-async function registrarManual(){
-  const codigo =
-    document
-      .getElementById("codigoManual")
-      .value
-      .trim();
-  
-  if(!codigo){
-    mostrarError("Ingrese un código");
-    return;
-  }
-
-  try{
-    const respuesta =
-      await fetch(
-        API_URL +
-        "?codigo=" +
-        encodeURIComponent(
-          codigo
-        )
-      );
-    
-    const data = await respuesta.json();
-    mostrarResultado(data);
-
-    document
-      .getElementById("codigoManual")
-      .value = "";
-  }
-
-  catch(error){
-    mostrarError(
-      "Error al consultar"
-    );
-  }
 }
 
 async function qrDetectado(codigo){
@@ -474,17 +390,6 @@ function nuevoEscaneo(){
   reader.innerHTML = "";
   iniciarEscaner();
 }
-
-document
-.getElementById("codigoManual")
-.addEventListener(
-  "keypress",
-  function(e){
-    if(e.key === "Enter"){
-      registrarManual();
-    }
-  }
-);
 
 cargarEstadisticas();
   
