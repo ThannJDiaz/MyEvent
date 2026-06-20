@@ -91,6 +91,18 @@ button{
 </head>
 
 <body>
+<audio id="audioExito">
+  <source src="exito.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="audioAdvertencia">
+  <source src="advertencia.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="audioError">
+  <source src="error.mp3" type="audio/mpeg">
+</audio>
+  
 <div class="container">
   <h1>Control de Acceso</h1>
   <button id="btnIniciar">
@@ -107,9 +119,32 @@ let scanner;
 const reader = document.getElementById("reader");
 const resultado = document.getElementById("resultado");
 
+/*document
+  .getElementById("btnIniciar")
+  .addEventListener("click",iniciarEscaner);*/
+
 document
   .getElementById("btnIniciar")
-  .addEventListener("click",iniciarEscaner);
+  .addEventListener(
+    "click",
+    () => {
+    [
+      "audioExito",
+      "audioAdvertencia",
+      "audioError"
+    ].forEach(id => {
+      const audio =
+        document.getElementById(id);
+        audio.play()
+          .then(() => {
+            audio.pause();
+            audio.currentTime = 0;
+        })
+        .catch(() => {});
+    });
+    iniciarEscaner();
+  }
+);
 
 function iniciarEscaner(){
   resultado.style.display = "none";
@@ -164,42 +199,21 @@ async function qrDetectado(codigo){
 }
 
 function reproducirExito(){
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const osc = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  osc.type = "sine";
-  osc.frequency.value = 900;
-  osc.connect(gain);
-  gain.connect(audioContext.destination);
-  gain.gain.setValueAtTime(0.4,audioContext.currentTime);
-  osc.start();
-  osc.stop(audioContext.currentTime + 0.15);
+  const audio = document.getElementById("audioExito");
+  audio.currentTime = 0;
+  audio.play();
 }
 
 function reproducirAdvertencia(){
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const osc = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  osc.type = "triangle";
-  osc.frequency.value = 600;
-  osc.connect(gain);
-  gain.connect(audioContext.destination);
-  gain.gain.setValueAtTime(0.4,audioContext.currentTime);
-  osc.start();
-  osc.stop(audioContext.currentTime + 0.3);
+  const audio = document.getElementById("audioAdvertencia");
+  audio.currentTime = 0;
+  audio.play();
 }
 
 function reproducirError(){
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const osc = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  osc.type = "square";
-  osc.frequency.value = 250;
-  osc.connect(gain);
-  gain.connect(audioContext.destination);
-  gain.gain.setValueAtTime(0.4,audioContext.currentTime);
-  osc.start();
-  osc.stop(audioContext.currentTime + 0.6);
+  const audio = document.getElementById("audioError");
+  audio.currentTime = 0;
+  audio.play();
 }
 
 function mostrarResultado(data){
