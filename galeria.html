@@ -122,10 +122,6 @@
   function renderGaleria(elementos){  
     const galeria = document.getElementById("galeria");
     galeria.innerHTML = "";
-    console.log(
-      item.tipo,
-      item.url
-    );
     elementos.forEach(
       item => {
         if(item.tipo == "foto"){        
@@ -137,8 +133,7 @@
                 style="width:100%;border:3px solid red;"
               >        
             </div>
-          `;
-          document.querySelector("img").src
+          `;          
         }
         /*if(item.tipo == "foto"){  
           galeria.innerHTML +=
