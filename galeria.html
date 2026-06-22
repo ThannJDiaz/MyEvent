@@ -110,8 +110,8 @@
     .addEventListener(
       "change",
       async function(){
-        for(const archivo of this.files){
-          /*const archivo = this.files[0];*/
+        /*for(const archivo of this.files){*/
+          const archivo = this.files[0];
               
           if(!archivo){
             return;
@@ -137,7 +137,7 @@
           await subirArchivo(archivo);    
         }
       );
-      }
+      /*}*/
 
   async function subirFoto(){
     const archivo =
