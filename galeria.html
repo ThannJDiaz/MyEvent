@@ -32,6 +32,17 @@
     Subir Video
   </button>
 
+  <input
+    type="file"
+    id="archivoInput"
+    accept="image/*,video/*"
+    multiple
+    hidden>
+
+  <button id="btnCompartir">
+    📸 Compartir recuerdos
+  </button>
+
   <div id="estado"></div>
 
 <script>
@@ -82,6 +93,49 @@
       estado.innerHTML = resultado.error;  
     }
   }
+
+  document
+    .getElementById("btnCompartir")
+    .addEventListener(
+      "click",
+      () => {    
+        document
+          .getElementById("archivoInput")
+          .click();    
+      }
+    );
+
+  document
+    .getElementById("archivoInput")
+    .addEventListener(
+      "change",
+      async function(){    
+        const archivo = this.files[0];
+            
+        if(!archivo){
+          return;
+        }
+    
+        if(archivo.type.startsWith("image/")){    
+          if(archivo.size > (10 * 1024 * 1024)){
+            alert(
+              "La foto supera 10 MB"
+            );    
+            return;
+          }    
+        }    
+        else if(archivo.type.startsWith("video/")){    
+          if(archivo.size > (100 * 1024 * 1024)){    
+            alert(
+              "El video supera 100 MB"
+            );    
+            return;
+          }    
+        }
+    
+        await subirArchivo(archivo);    
+      }
+    );
 
   async function subirFoto(){
     const archivo =
