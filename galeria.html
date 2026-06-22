@@ -62,14 +62,32 @@
   }
 
   .video-card{
+    position:relative;
+    display:block;
+    overflow:hidden;
+    border-radius:1rem;
+  }
+
+  .video-card img{
+    width:100%;
+    display:block;
+  }
+
+  .play-icon{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:rgba(0,0,0,0.5);
+    color:white;
     display:flex;
     align-items:center;
     justify-content:center;
-    height:200px;
-    text-decoration:none;
-    font-size:1.2rem;
-    background:#f0f0f0;
-    border-radius:1rem;
+    font-size:2rem;
+    font-weight:bold;
   }
     
 </style>
@@ -155,8 +173,11 @@
             <a
               href="https://drive.google.com/file/d/${item.id}/view"
               target="_blank"
-              class="video-card">
-              🎥 Ver video            
+              class="video-card">            
+              <img src="https://drive.google.com/thumbnail?id=${item.id}&sz=w1200">            
+              <div class="play-icon">
+                ▶
+              </div>            
             </a>
           </div>
           `;          
