@@ -141,7 +141,11 @@
     );  
   }
 
-  
+  async function cargarGaleria(){  
+    const respuesta = await fetch(API_URL + "?action=listar");
+    galeriaCompleta = await respuesta.json();  
+    renderGaleria(galeriaCompleta);
+  }
 
   async function subirArchivo(archivo){
     const estado = document.getElementById("estado");
@@ -165,7 +169,8 @@
     const resultado = await respuesta.json();
   
     if(resultado.ok){  
-      estado.innerHTML = "Archivo cargado correctamente";  
+      estado.innerHTML = "✓ Archivo cargado";
+      cargarGaleria();
     }  
     else{
       estado.innerHTML = resultado.error;  
@@ -217,13 +222,22 @@
       }
       );
 
-  async function cargarGaleria(){  
-    const respuesta = await fetch(API_URL + "?action=listar");
-    galeriaCompleta = await respuesta.json();  
-    renderGaleria(galeriaCompleta);
+  function filtrar(tipo){  
+    if(tipo == "todo"){  
+      renderGaleria(galeriaCompleta);  
+      return;  
+    }
+  
+    const filtrados = galeriaCompleta.filter(  
+        item =>
+          item.tipo ==
+          tipo  
+      );
+  
+    renderGaleria(filtrados);  
   }
 
-  
+  cargarGaleria();  
 
   </script>
 </body>
