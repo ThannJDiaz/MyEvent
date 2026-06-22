@@ -132,8 +132,13 @@
           </div>
           `;  
         }
-        else{  
-          galeria.innerHTML +=
+        else{ 
+          galeria.innerHTML += `
+            <div class="card">
+              <iframe allowfullscreen="allowfullscreen" src="https://drive.google.com/file/d/${item.id}/preview" ></iframe>
+            </div>
+          `;
+          /*galeria.innerHTML +=
           `
           <div class="card">  
             <video controls>  
@@ -141,7 +146,7 @@
                 src="https://drive.google.com/file/d/${item.id}/preview">  
             </video>
           </div>
-          `;          
+          `;*/          
         }  
       }
     );  
