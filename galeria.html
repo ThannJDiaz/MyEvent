@@ -136,13 +136,12 @@
           galeria.innerHTML +=
           `
           <div class="card">  
-            <iframe
-              src="https://drive.google.com/file/d/${item.id}/preview"
-              allow="autoplay"
-              loading="lazy">
-            </iframe>  
+            <video controls>  
+              <source
+                src="https://drive.google.com/file/d/${item.id}/preview">  
+            </video>
           </div>
-          `;  
+          `;          
         }  
       }
     );  
