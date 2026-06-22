@@ -115,6 +115,10 @@
   function renderGaleria(elementos){  
     const galeria = document.getElementById("galeria");
     galeria.innerHTML = "";
+    console.log(
+      item.tipo,
+      item.url
+    );
     elementos.forEach(
       item => {  
         if(item.tipo == "foto"){  
