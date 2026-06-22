@@ -127,15 +127,26 @@
       item.url
     );
     elementos.forEach(
-      item => {  
-        if(item.tipo == "foto"){  
+      item => {
+        if(item.tipo == "foto"){        
+          galeria.innerHTML += `
+            <div class="card">        
+              <p>${item.nombre}</p>        
+              <img
+                src="https://drive.google.com/thumbnail?id=${item.id}&sz=w1200"
+                style="width:100%;border:3px solid red;"
+              >        
+            </div>
+          `;        
+        }
+        /*if(item.tipo == "foto"){  
           galeria.innerHTML +=
           `
           <div class="card">  
             <img src="https://drive.google.com/thumbnail?id=${item.id}&sz=w1200">  
           </div>
           `;  
-        }  
+        }*/  
         else{  
           galeria.innerHTML +=
           `
