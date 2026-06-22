@@ -93,6 +93,7 @@
 
 <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbxvMFi6P1hCeKGmdOd-jQ3fuTYtm7hLuumSemuYcJmglV9MuFFe4emExTBVr4WxV7kO/exec";
+  let galeriaCompleta = [];
 
   function archivoABase64(archivo){
     return new Promise(
@@ -110,6 +111,37 @@
       }
     );  
   }
+
+  function renderGaleria(elementos){  
+    const galeria = document.getElementById("galeria");
+    galeria.innerHTML = "";
+    elementos.forEach(
+      item => {  
+        if(item.tipo == "foto"){  
+          galeria.innerHTML +=
+          `
+          <div class="card">  
+            <img
+              src="${item.url}">  
+          </div>
+          `;  
+        }  
+        else{  
+          galeria.innerHTML +=
+          `
+          <div class="card">  
+            <video controls>  
+              <source
+                src="${item.url}">  
+            </video>  
+          </div>
+          `;  
+        }  
+      }
+    );  
+  }
+
+  
 
   async function subirArchivo(archivo){
     const estado = document.getElementById("estado");
@@ -184,6 +216,14 @@
         }
       }
       );
+
+  async function cargarGaleria(){  
+    const respuesta = await fetch(API_URL + "?action=listar");
+    galeriaCompleta = await respuesta.json();  
+    renderGaleria(galeriaCompleta);
+  }
+
+  
 
   </script>
 </body>
