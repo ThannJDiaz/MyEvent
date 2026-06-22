@@ -7,11 +7,77 @@
 <title>Galeria</title>
 
 <style>
+  #filtros{
+    display:flex;  
+    justify-content:center;  
+    gap:1rem;  
+    margin:2rem 0;  
+  }
   
+  #filtros button{  
+    background:#D4A64A;  
+    border:none;  
+    border-radius:1rem;  
+    padding:.75rem 1.5rem;  
+    cursor:pointer;  
+  }
+  
+  #galeria{  
+    display:grid;  
+    grid-template-columns:
+      repeat(
+        auto-fill,
+        minmax(
+          12rem,
+          1fr
+        )
+      );  
+    gap:1rem;  
+  }
+  
+  .card{  
+    overflow:hidden;  
+    border-radius:1rem;  
+    background:white;  
+    box-shadow:
+      0 .2rem .8rem
+      rgba(0,0,0,0.15);  
+  }
+  
+  .card img{  
+    width:100%;  
+    display:block;  
+  }
+  
+  .card video{  
+    width:100%;  
+    display:block;  
+  }
+    
 </style>
 </head>
 
 <body>
+  <div id="filtros">
+  
+    <button
+      onclick="filtrar('todo')">
+      Todo
+    </button>
+  
+    <button
+      onclick="filtrar('foto')">
+      Fotos
+    </button>
+  
+    <button
+      onclick="filtrar('video')">
+      Videos
+    </button>
+  </div>
+
+  <div id="galeria"></div>
+  
   <input
     type="file"
     id="archivoInput"
