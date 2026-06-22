@@ -14,26 +14,6 @@
 <body>
   <input
     type="file"
-    id="fotoInput"
-    accept="image/*">
-
-  <button
-    onclick="subirFoto()">
-    Subir Foto
-  </button>
-
-  <input
-    type="file"
-    id="videoInput"
-    accept="video/*">
-
-  <button
-    onclick="subirVideo()">
-    Subir Video
-  </button>
-
-  <input
-    type="file"
     id="archivoInput"
     accept="image/*,video/*"
     multiple
@@ -111,7 +91,7 @@
       "change",
       async function(){
         for(const archivo of this.files){
-          const archivo = this.files[0];
+          /*const archivo = this.files[0];*/
               
           if(!archivo){
             return;
@@ -139,51 +119,6 @@
       }
       );
 
-  async function subirFoto(){
-    const archivo =
-      document
-      .getElementById("fotoInput")
-      .files[0];
-  
-    if(!archivo){  
-      alert(
-        "Seleccione una foto"
-      );
-      return;
-    }
-  
-    if(archivo.size > (10 * 1024 * 1024)){  
-      alert(
-        "Máximo 10 MB"
-      );  
-      return;  
-    }
-  
-    await subirArchivo(archivo);  
-  }
-
-  async function subirVideo(){
-    const archivo =
-      document
-      .getElementById("videoInput")
-      .files[0];
-  
-    if(!archivo){  
-      alert(
-        "Seleccione un video"
-      );  
-      return;  
-    }
-  
-    if(archivo.size > (100 * 1024 * 1024)){  
-      alert(
-        "Máximo 100 MB"
-      );
-      return;
-    }
-  
-    await subirArchivo(archivo);
-  }
-</script>
+  </script>
 </body>
 </html>
