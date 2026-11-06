@@ -270,10 +270,73 @@
     font-size:1rem;
     margin-bottom: -0.5rem;
   }
+
+  .separador-galeria {
+    width: 85%;
+    max-width: 550px;
+    height: 38px;
+    margin: 15px auto 25px;
+    opacity: 0.95;
+  }
+
+  .separador-galeria svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+  }
+  
+  /* Botón fijo inferior */
+  .compartir-fijo {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px 20px calc(15px + env(safe-area-inset-bottom));
+      justify-content: center;
+      z-index: 999;
+      background: linear-gradient(
+          to top,
+          rgba(217, 238, 250, 0.98),
+          rgba(217, 238, 250, 0)
+      );
+  }
+
+  #btnCompartirFijo {
+      width: 100%;
+      max-width: 450px;
+      background: #D4A949;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.8rem 1rem;
+      font-size: 1.1rem;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Activación de la segunda versión */
+  body.modo-galeria-fijo .acciones {
+      display: none;
+  }
+  
+  /* Segunda versión: ocultar filtros */
+  body.modo-galeria-fijo #filtros {
+      display: none;
+  }
+
+  body.modo-galeria-fijo .compartir-fijo {
+      display: flex;
+  }
+
+  body.modo-galeria-fijo #galeria {
+      padding-bottom: 100px;
+  }
 </style>
 </head>
 
-<body>
+<body class="modo-galeria-fijo">
   <header class="evento">
     <h1>
       Jonathan & Alexia
@@ -282,7 +345,8 @@
       ¡Nuestra Boda!
     </p>
   </header>
-  
+
+  <!-- Botón superior: versión original -->
   <div class="acciones">
     <button id="btnCompartir">
       📸 Compartir recuerdos
@@ -304,6 +368,33 @@
       onclick="filtrar('video')">
       Videos
     </button>
+  </div>
+
+  <!-- Botón inferior: versión alternativa -->
+  <div class="compartir-fijo">
+      <button id="btnCompartirFijo">
+          📸 Compartir recuerdos
+      </button>
+  </div>
+  
+  <div class="separador-galeria">
+    <svg viewBox="0 0 300 42" preserveAspectRatio="none">
+        <!-- Línea curva -->
+        <path
+            d="M2 21 Q75 4 145 21 Q225 38 298 21"
+            fill="none"
+            stroke="#D6BD83"
+            stroke-width="1.4"
+        />
+
+        <!-- Detalle central -->
+        <path
+            d="M150 15 C142 7 133 18 150 29 C167 18 158 7 150 15Z"
+            fill="none"
+            stroke="#D6BD83"
+            stroke-width="1.2"
+        />
+    </svg>
   </div>
 
   <div id="galeria"></div>
@@ -572,16 +663,17 @@
     }
   }
 
+  function abrirSelectorArchivos() {
+    document.getElementById("archivoInput").click();
+  }
+
   document
-    .getElementById("btnCompartir")
-    .addEventListener(
-      "click",
-      () => {    
-        document
-          .getElementById("archivoInput")
-          .click();    
-      }
-    );
+      .getElementById("btnCompartir")
+      .addEventListener("click", abrirSelectorArchivos);
+
+  document
+      .getElementById("btnCompartirFijo")
+      .addEventListener("click", abrirSelectorArchivos);
 
   document
     .getElementById("archivoInput")
